@@ -13,6 +13,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -33,9 +39,8 @@ public class Mar {
         this.panel.setMaxSize(1000, 600);
         this.panel.setPrefSize(1000, 600);
         this.panel.setManaged(true);
-        this.panel.setStyle("-fx-background-image: url('" + "fondoMarino.jpg" + "'); "
-           + "-fx-background-position: center center; "
-           + "-fx-background-repeat: stretch;");
+        
+        this.panel.setBackground(new Background(new BackgroundImage(new Image(image), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         this.bt = new Button("Iniciar");
         
         this.panel.getChildren().add(bt);
@@ -135,4 +140,6 @@ public class Mar {
         }
         
     }
+    
+    
 }
