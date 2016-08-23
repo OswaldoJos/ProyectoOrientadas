@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyectopoo;
+package principales;
 
 import java.io.File;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import util.ConstantesyFunciones;
 
 /**
  *
@@ -21,9 +22,9 @@ public class Buzo {
 
     public Buzo(String nombre) {
         this.nombre = nombre;
-        File file = new File("src/imagenes/buzo.gif");
-        Image image = new Image(file.toURI().toString());
-        this.imagen = new ImageView(image);
+        this.imagen = new ImageView(ConstantesyFunciones.BUZO);
+        this.imagen.setLayoutX(5);
+        this.imagen.setLayoutY(20);
         this.vidas = 3;
         this.puntaje = 0;
         
