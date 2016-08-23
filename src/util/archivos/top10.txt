@@ -1,0 +1,3 @@
+jonathan,1500
+oswaldo,800
+salazar,550
