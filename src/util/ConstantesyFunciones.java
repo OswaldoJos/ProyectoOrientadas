@@ -26,4 +26,7 @@ public final class ConstantesyFunciones {
     public static final Image CUATRO = new Image(new File("src/util/imagenes/4.png").toURI().toString());
     public static final Image CINCO = new Image(new File("src/util/imagenes/4.png").toURI().toString());
     public static final Image CORAZON = new Image(new File("src/util/imagenes/corazon.png").toURI().toString());
+    public static final Image PODER_ACTIVO = new Image(new File("src/util/imagenes/pelotitaVerde.png").toURI().toString());
+    public static final Image PODER_INACTIVO = new Image(new File("src/util/imagenes/pelotitaRoja.png").toURI().toString());
+
 }

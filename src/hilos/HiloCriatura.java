@@ -17,35 +17,40 @@ import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import principales.Mar;
+import util.ConstantesyFunciones;
 
 /**
- *
- * @author novicompu
- */
+    * Esta clase define un hilo de una criatura del mar
+    * @author Oswaldo Aguilar , Jonathan Gorotiza y Eduardo Salazar
+    * @version 24/08/2016
+    * @see Criatura
+    * @see Mar
+    * @see HiloBuzo
+    * @see HiloCriatura
+    */
 public class HiloCriatura extends Thread{
+    /**
+     * Criatura que referencia el hilo
+     */
     private Criatura criatura;
+    /**
+     * Mar donde se encuentra la criatura
+     */
     private Mar mar;
+    
+    /**
+    * Constructor de HiloCriatura con dos parametros
+    * @param criatura de tipo Criatura que referencia a la criatura
+    * @param mar de tipo Mar que referencia al mar
+    */
     public HiloCriatura(Criatura criatura, Mar mar) {
         this.criatura = criatura;
         this.mar = mar;
     }
 
-    public Criatura getCriatura() {
-        return criatura;
-    }
-
-    public void setCriatura(Criatura criatura) {
-        this.criatura = criatura;
-    }
-
-    public Mar getMar() {
-        return mar;
-    }
-
-    public void setMar(Mar mar) {
-        this.mar = mar;
-    }
-
+    /**
+    * Metodo que ejcutara todo el proceso de cada ciratura
+    */
     @Override
     public void run() {
         while(mar.getBuzo().getVidas() > 0){
@@ -58,7 +63,7 @@ public class HiloCriatura extends Thread{
             } catch (InterruptedException ex) {
                 Logger.getLogger(HiloCriatura.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(criatura.getImagen().getLayoutX() == 0){
+            if(criatura.getImagen().getLayoutX() <= 50){
                 if(criatura.getClass().equals(Pirania.class)){
                     if(mar.getBuzo().getContPiranias() == 2){
                         mar.getBuzo().quitarVida();
@@ -69,15 +74,19 @@ public class HiloCriatura extends Thread{
                                 mar.getVidas().setText(""+mar.getBuzo().getVidas());
                             }
                         });
+                    }else{
+                        mar.getBuzo().setContPiranias(mar.getBuzo().getContPiranias() + 1);
                     }
                 }
-                mar.getBuzo().quitarVida();
-                Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                mar.getVidas().setText(""+mar.getBuzo().getVidas());
-                            }
-                        });
+                else{
+                    mar.getBuzo().quitarVida();
+                    Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mar.getVidas().setText(""+mar.getBuzo().getVidas());
+                                }
+                            });
+                }
             }
             if(criatura.getPalabras().isEmpty()){
                 if(criatura.getClass().equals(Pirania.class))
@@ -86,7 +95,6 @@ public class HiloCriatura extends Thread{
                     mar.getBuzo().setPuntaje(mar.getBuzo().getPuntaje() + 10);
                 if(criatura.getClass().equals(MegaTiburon.class))
                     mar.getBuzo().setPuntaje(mar.getBuzo().getPuntaje() + 20);
-                System.out.println("Puntaje: " + mar.getBuzo().getPuntaje());
                 
                 Platform.runLater(new Runnable() {
                             @Override
@@ -94,8 +102,17 @@ public class HiloCriatura extends Thread{
                                 mar.getlPuntaje().setText("Puntaje: " + mar.getBuzo().getPuntaje());
                             }
                         });
+                
+                if(mar.getBuzo().getPuntaje() >= 100){
+                    Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() { 
+                                mar.getPoder().setImage(ConstantesyFunciones.PODER_ACTIVO); 
+                            }
+                        });
+                }
             }
-            if(criatura.getPalabras().isEmpty() || criatura.getImagen().getLayoutX() == 0){
+            if(criatura.getPalabras().isEmpty() || criatura.getImagen().getLayoutX() <= 50){
                 System.out.println("entra");
                 File file = new File("src/util/imagenes/boom.png");
                 Image image = new Image(file.toURI().toString());
