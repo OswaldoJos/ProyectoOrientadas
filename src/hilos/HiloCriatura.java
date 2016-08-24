@@ -6,6 +6,9 @@
 package hilos;
 
 import criaturas.Criatura;
+import criaturas.MegaTiburon;
+import criaturas.Pirania;
+import criaturas.Tiburon;
 import java.io.File;
 import java.util.Random;
 import java.util.logging.Level;
@@ -45,13 +48,52 @@ public class HiloCriatura extends Thread{
 
     @Override
     public void run() {
-        while(true){
-            HiloCriatura.this.criatura.avanzar(1);  
+        while(mar.getBuzo().getVidas() > 0){
+            HiloCriatura.this.criatura.avanzar(mar.getNivel()); 
+            if(!criatura.isCorrecta())
+                HiloCriatura.this.criatura.avanzar(mar.getNivel());
             try {
                 int aleatorio = new Random().nextInt(10);
                 HiloCriatura.this.sleep(50*aleatorio);
             } catch (InterruptedException ex) {
                 Logger.getLogger(HiloCriatura.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(criatura.getImagen().getLayoutX() == 0){
+                if(criatura.getClass().equals(Pirania.class)){
+                    if(mar.getBuzo().getContPiranias() == 2){
+                        mar.getBuzo().quitarVida();
+                        mar.getBuzo().setContPiranias(0);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                mar.getVidas().setText(""+mar.getBuzo().getVidas());
+                            }
+                        });
+                    }
+                }
+                mar.getBuzo().quitarVida();
+                Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                mar.getVidas().setText(""+mar.getBuzo().getVidas());
+                            }
+                        });
+            }
+            if(criatura.getPalabras().isEmpty()){
+                if(criatura.getClass().equals(Pirania.class))
+                    mar.getBuzo().setPuntaje(mar.getBuzo().getPuntaje() + 5);
+                if(criatura.getClass().equals(Tiburon.class))
+                    mar.getBuzo().setPuntaje(mar.getBuzo().getPuntaje() + 10);
+                if(criatura.getClass().equals(MegaTiburon.class))
+                    mar.getBuzo().setPuntaje(mar.getBuzo().getPuntaje() + 20);
+                System.out.println("Puntaje: " + mar.getBuzo().getPuntaje());
+                
+                Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {  
+                                mar.getlPuntaje().setText("Puntaje: " + mar.getBuzo().getPuntaje());
+                            }
+                        });
             }
             if(criatura.getPalabras().isEmpty() || criatura.getImagen().getLayoutX() == 0){
                 System.out.println("entra");

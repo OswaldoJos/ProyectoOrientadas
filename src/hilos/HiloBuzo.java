@@ -6,13 +6,17 @@
 package hilos;
 
 import criaturas.Criatura;
+import java.awt.BorderLayout;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import principales.Buzo;
 import principales.Mar;
+import util.ConstantesyFunciones;
 
 /**
  *
@@ -22,7 +26,6 @@ public class HiloBuzo extends Thread{
     private Buzo buzo;
     private Mar mar;
     private boolean subida;
-    
     public HiloBuzo(Buzo buzo, Mar mar) {
         this.buzo = buzo;
         this.mar = mar;
@@ -32,6 +35,10 @@ public class HiloBuzo extends Thread{
     @Override
     public void run() {
         while(true){
+            if(mar.getBuzo().getVidas() == 0){
+                System.out.println("Murio BUZO");
+                break;
+            }
             if(subida){
                 buzo.getImagen().setLayoutY(this.buzo.getImagen().getLayoutY()-15);
                 if(this.buzo.getImagen().getLayoutY() <= 0)
@@ -49,17 +56,32 @@ public class HiloBuzo extends Thread{
             } catch (InterruptedException ex) {
                 Logger.getLogger(HiloCriatura.class.getName()).log(Level.SEVERE, null, ex);
             }
-             
-            if(mar.getCriaturas().isEmpty()){
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        System.out.println("Murieron todos");
-                        mar.agregarCriaturas(mar.getPalabras());
+            try{
+                if(mar.getCriaturas().isEmpty()){
+                    mar.pasarHorda();
+                    System.out.println("Horda "+mar.getHordas());
+                    if(mar.getHordas() == 0){
+                        if(mar.getNivel() < 5){
+                            mar.aumentarNivel();
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mar.getlNivel().setText("Nivel "+mar.getNivel() );
+                                }
+                            });
+                            mar.setHordas(5);
                         }
-                });
-                
-            }
+                    }
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            System.out.println("Murieron todos. Nivel " + mar.getNivel());
+                            mar.agregarCriaturas(mar.getPalabras());
+                            }
+                    });
+
+                }
+            }catch(Exception e){};
         }
     }
     
