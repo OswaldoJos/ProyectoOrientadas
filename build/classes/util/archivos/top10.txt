@@ -1,0 +1,10 @@
+jonathan,1500
+oswaldo,800
+salazar,550
+fgfgf,45
+Oswaldo,25
+Jair,20
+Oswaldo,10
+Osw,0
+Osw,0
+Osw,0
