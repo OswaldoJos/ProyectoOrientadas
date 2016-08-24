@@ -6,6 +6,9 @@
 package principales;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.Scanner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import util.ConstantesyFunciones;
@@ -19,7 +22,8 @@ public class Buzo {
     private String nombre;
     private int vidas;
     private int puntaje;
-
+    private int contPiranias = 0;
+    
     public Buzo(String nombre) {
         this.nombre = nombre;
         this.imagen = new ImageView(ConstantesyFunciones.BUZO);
@@ -28,6 +32,11 @@ public class Buzo {
         this.vidas = 3;
         this.puntaje = 0;
         
+    }
+    
+    public Buzo(String nombre, int puntaje) {
+        this.nombre = nombre;
+        this.puntaje = puntaje;
     }
 
     public ImageView getImagen() {
@@ -65,5 +74,34 @@ public class Buzo {
     public void superAtacar(Mar mar){
         
     }
+    public void quitarVida(){
+        this.vidas = this.vidas -1;
+    }
+
+    public int getContPiranias() {
+        return contPiranias;
+    }
+
+    public void setContPiranias(int contPiranias) {
+        this.contPiranias = contPiranias;
+    }
     
+    
+    public static LinkedList<Buzo> cargarTop10(){
+        LinkedList<Buzo> lista = new LinkedList<>();
+        File archivo = new File("src/util/archivos/top10.txt");
+        try {
+            Scanner sc = new Scanner(archivo);
+            sc.useDelimiter("\n");
+            while(sc.hasNext()) {
+                String linea = sc.nextLine();
+                String[] campos = linea.split("\\,");
+                lista.add(new Buzo(campos[0], Integer.parseInt(campos[1])));
+            }
+            sc.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return lista;
+    }
 }
