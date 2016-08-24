@@ -104,10 +104,10 @@ public abstract class Criatura {
         //1: piraña, 2: tiburón, 3: tiburón negro
         ArrayList<Integer> probably = new ArrayList<>();
         Random rnd = new Random();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 12; i++) {
             probably.add(1);
         }
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 7; i++) {
             probably.add(2);
         }
         for (int i = 0; i < 1; i++) {
@@ -118,7 +118,8 @@ public abstract class Criatura {
         int aleatorio = new Random().nextInt(palabras.size());
         String palabra = palabras.get(aleatorio);
         ArrayList<String> palabrasx = new ArrayList<>();
-        switch(num) {
+        System.out.println(opcion);
+        switch(opcion) {
             case 1:
                 palabrasx.add(palabra.substring(0,1));
                 return new Pirania(palabrasx, posX, posY);
@@ -135,8 +136,7 @@ public abstract class Criatura {
             palabrasx.add(palabras.get(aleatorio));         
         }
         
-        int aleatorio2 = new Random().nextInt(1);
-        
+        System.out.println(palabrasx);
         return new MegaTiburon(palabrasx, posX, posY);
     }
     

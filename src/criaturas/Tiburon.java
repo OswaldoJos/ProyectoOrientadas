@@ -26,7 +26,7 @@ public class Tiburon extends Criatura{
         };
     
     public Tiburon(ArrayList<String> palabras, double posX, double posY){
-        super("src/util/imagenes/tiburon.gif", palabras, posX, posY, posicionesLabel[palabras.get(0).length()-1], Color.WHITE);
+        super("src/util/imagenes/tiburonBlanco.png", palabras, posX, posY, posicionesLabel[palabras.get(0).length()-1], Color.WHITE);
         this.setPalabras(palabras);
     }
 
